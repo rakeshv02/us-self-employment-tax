@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ROI Calculator — Return on Investment | Tabutility</title>
-  <meta name="description" content="Calculate return on investment (ROI), annualised return, and profit/loss for any investment. Simple and detailed ROI analysis." />
-  <meta name="keywords" content="roi calculator, return on investment, investment return, annualised return, profit calculator" />
-  <link rel="canonical" href="https://roi.tabutility.com/" />
-  <meta property="og:title" content="ROI Calculator — Return on Investment" />
-  <meta property="og:description" content="Calculate ROI, annualised return and profit for any investment instantly." />
+  <title>US Self-Employment Tax Calculator 2026 | Tabutility</title>
+  <meta name="description" content="Calculate US self-employment tax for 2026. Includes Social Security, Medicare, the SE tax deduction, and estimated quarterly payments." />
+  <meta name="keywords" content="self employment tax calculator 2026, se tax, social security self employed, medicare self employed, 1099 tax calculator" />
+  <link rel="canonical" href="https://us-self-employment-tax.tabutility.com/" />
+  <meta property="og:title" content="US Self-Employment Tax Calculator 2026" />
+  <meta property="og:description" content="Calculate self-employment tax including Social Security, Medicare and deductions for 2026." />
   <meta property="og:type" content="website" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💼</text></svg>" />
   <meta name="robots" content="index, follow" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7039091592734005" crossorigin="anonymous"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-78VZWJ5B1W"></script>
@@ -24,25 +24,65 @@
 <script type="text/babel">
 //<![CDATA[
 const { useState } = React;
-function fmt(n){return '$'+Math.abs(Math.round(n)).toLocaleString();}
-function fmtPct(n){return (n>=0?'+':'')+n.toFixed(2)+'%';}
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function fmtD(n){return '$'+n.toFixed(2);}
 
 function App() {
-  const [initial, setInitial] = useState(10000);
-  const [final, setFinal] = useState(14500);
-  const [years, setYears] = useState(3);
-  const [fees, setFees] = useState(0);
+  const [netProfit, setProfit] = useState(80000);
+  const [filing, setFiling] = useState('single');
+  const [otherIncome, setOther] = useState(0);
 
-  const inv = Number(initial)||0;
-  const fin = Number(final)||0;
-  const yrs = Number(years)||1;
-  const fee = Number(fees)||0;
+  // 2026
+  const SS_WAGE_BASE = 176100;
+  const SS_RATE = 0.124;
+  const MEDICARE_RATE = 0.029;
+  const ADD_MEDICARE = 0.009; // above $200k single / $250k MFJ
 
-  const netFinal = fin - fee;
-  const profit = netFinal - inv;
-  const roi = inv > 0 ? (profit / inv * 100) : 0;
-  const annualised = inv > 0 && yrs > 0 ? (Math.pow(netFinal/inv, 1/yrs)-1)*100 : 0;
-  const positive = profit >= 0;
+  const profit = Number(netProfit)||0;
+  const oi = Number(otherIncome)||0;
+
+  // SE income = 92.35% of net profit
+  const seIncome = profit * 0.9235;
+
+  // Social Security: 12.4% up to wage base
+  const ssBase = Math.min(seIncome, SS_WAGE_BASE);
+  const ssTax = ssBase * SS_RATE;
+
+  // Medicare: 2.9% on all
+  const medicareTax = seIncome * MEDICARE_RATE;
+
+  // Additional Medicare: 0.9% above threshold
+  const addMedThreshold = filing === 'married' ? 250000 : 200000;
+  const addMedBase = Math.max(0, profit + oi - addMedThreshold);
+  const addMedicareTax = addMedBase * ADD_MEDICARE;
+
+  const totalSE = ssTax + medicareTax + addMedicareTax;
+
+  // Deduction: half of SE tax deducted from income
+  const seDeduction = totalSE / 2;
+
+  // Adjusted profit for income tax
+  const adjustedIncome = profit - seDeduction + oi;
+  const PA = filing === 'married' ? 30000 : 15000; // 2026 standard deduction (estimated)
+  const taxableIncome = Math.max(0, adjustedIncome - PA);
+
+  // Federal income tax (simplified brackets 2026 - single)
+  const brackets = filing === 'married'
+    ? [{ l:23850,r:0.10},{l:96950,r:0.12},{l:206700,r:0.22},{l:394600,r:0.24},{l:501050,r:0.32},{l:751600,r:0.35},{l:Infinity,r:0.37}]
+    : [{ l:11925,r:0.10},{l:48475,r:0.12},{l:103350,r:0.22},{l:197300,r:0.24},{l:250525,r:0.32},{l:626350,r:0.35},{l:Infinity,r:0.37}];
+
+  let incomeTax = 0, prev = 0;
+  for (const b of brackets) {
+    const slice = Math.min(taxableIncome, b.l) - prev;
+    if (slice <= 0) break;
+    incomeTax += slice * b.r;
+    prev = b.l;
+    if (taxableIncome <= b.l) break;
+  }
+
+  const totalTax = totalSE + incomeTax;
+  const effectiveRate = profit > 0 ? totalTax / profit * 100 : 0;
+  const quarterly = totalTax / 4;
 
   return (
     <div style={{maxWidth:520,margin:'0 auto',paddingBottom:40}}>
@@ -50,54 +90,71 @@ function App() {
         <a href="https://tabutility.com" style={{color:'#a5b4fc',textDecoration:'none',fontSize:14}}>← All Tools</a>
         <span style={{color:'#fff',fontWeight:700,fontSize:15}}>⚡ Tabutility</span>
       </div>
-      <div style={{background:'linear-gradient(135deg,#0891b2,#0e7490)',padding:'28px 20px',textAlign:'center',color:'#fff'}}>
-        <div style={{fontSize:36,marginBottom:8}}>📈</div>
-        <h1 style={{margin:'0 0 6px',fontSize:22,fontWeight:900}}>ROI Calculator</h1>
-        <p style={{margin:0,fontSize:13,opacity:0.85}}>Return on investment · annualised return · profit/loss</p>
+      <div style={{background:'linear-gradient(135deg,#b45309,#78350f)',padding:'28px 20px',textAlign:'center',color:'#fff'}}>
+        <div style={{fontSize:36,marginBottom:8}}>💼</div>
+        <h1 style={{margin:'0 0 6px',fontSize:22,fontWeight:900}}>US Self-Employment Tax</h1>
+        <p style={{margin:0,fontSize:13,opacity:0.85}}>2026 — Social Security · Medicare · income tax · quarterly payments</p>
       </div>
       <div style={{padding:20}}>
         <div style={{background:'#fff',borderRadius:14,padding:20,boxShadow:'0 2px 12px rgba(0,0,0,0.06)',marginBottom:16}}>
-          {[['Initial Investment','$',initial,setInitial],['Final Value','$',final,setFinal],['Fees / Costs','$',fees,setFees]].map(([label,prefix,val,setter])=>(
-            <div key={label} style={{marginBottom:14}}>
-              <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>{label}</label>
-              <div style={{position:'relative'}}>
-                <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#6b7280'}}>{prefix}</span>
-                <input type="number" value={val} onChange={e=>setter(e.target.value)}
-                  style={{width:'100%',padding:'11px 12px 11px 28px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:16,boxSizing:'border-box'}} />
-              </div>
+          <div style={{marginBottom:14}}>
+            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>Net Self-Employment Profit</label>
+            <div style={{position:'relative'}}>
+              <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#6b7280'}}>$</span>
+              <input type="number" value={netProfit} onChange={e=>setProfit(e.target.value)}
+                style={{width:'100%',padding:'11px 12px 11px 28px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:16,boxSizing:'border-box'}} />
             </div>
-          ))}
+          </div>
+          <div style={{marginBottom:14}}>
+            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>Other W-2 Income</label>
+            <div style={{position:'relative'}}>
+              <span style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',color:'#6b7280'}}>$</span>
+              <input type="number" value={otherIncome} onChange={e=>setOther(e.target.value)}
+                style={{width:'100%',padding:'11px 12px 11px 28px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:16,boxSizing:'border-box'}} />
+            </div>
+          </div>
           <div>
-            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>Investment Period (years)</label>
-            <input type="number" value={years} onChange={e=>setYears(e.target.value)} min={0.1} step={0.5}
-              style={{width:'100%',padding:'11px 12px',borderRadius:10,border:'2px solid #e5e7eb',fontSize:16,boxSizing:'border-box'}} />
+            <label style={{fontSize:13,fontWeight:600,color:'#374151',display:'block',marginBottom:6}}>Filing Status</label>
+            <div style={{display:'flex',gap:8}}>
+              {[['single','Single'],['married','Married']].map(([v,l])=>(
+                <button key={v} onClick={()=>setFiling(v)} style={{flex:1,padding:'9px',borderRadius:10,border:`2px solid ${filing===v?'#b45309':'#e5e7eb'}`,background:filing===v?'#b45309':'#fff',color:filing===v?'#fff':'#374151',fontWeight:600,cursor:'pointer',fontSize:14}}>{l}</button>
+              ))}
+            </div>
           </div>
         </div>
 
-        <div style={{background: positive?'#f0fdf4':'#fef2f2',borderRadius:14,padding:24,textAlign:'center',marginBottom:16,boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
-          <div style={{fontSize:13,fontWeight:600,color:'#6b7280',marginBottom:4}}>TOTAL ROI</div>
-          <div style={{fontSize:52,fontWeight:900,color: positive?'#059669':'#dc2626'}}>{fmtPct(roi)}</div>
-          <div style={{fontSize:15,color: positive?'#059669':'#dc2626',fontWeight:700}}>{positive?'+':''}{fmt(profit)} {positive?'profit':'loss'}</div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:16}}>
+          <div style={{background:'#fef3c7',borderRadius:14,padding:16,textAlign:'center'}}>
+            <div style={{fontSize:11,fontWeight:700,color:'#78350f'}}>SE TAX</div>
+            <div style={{fontSize:28,fontWeight:900,color:'#b45309',margin:'4px 0'}}>{fmt(totalSE)}</div>
+          </div>
+          <div style={{background:'#fef2f2',borderRadius:14,padding:16,textAlign:'center'}}>
+            <div style={{fontSize:11,fontWeight:700,color:'#991b1b'}}>QUARTERLY EST.</div>
+            <div style={{fontSize:28,fontWeight:900,color:'#dc2626',margin:'4px 0'}}>{fmt(quarterly)}</div>
+          </div>
         </div>
 
         <div style={{background:'#fff',borderRadius:14,padding:20,boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
           {[
-            ['Initial Investment', fmt(inv)],
-            ['Final Value (before fees)', fmt(fin)],
-            ['Fees / Transaction Costs', fee > 0 ? '-'+fmt(fee) : '$0'],
-            ['Net Final Value', fmt(netFinal)],
-            ['Net Profit / Loss', (positive?'+':'-')+fmt(profit)],
-            ['Total ROI', fmtPct(roi)],
-            ['Annualised Return (CAGR)', fmtPct(annualised)+' / yr'],
+            ['Net SE Profit', fmt(profit)],
+            ['SE Income (×92.35%)', fmt(seIncome)],
+            ['Social Security (12.4%)', fmt(ssTax)],
+            ['Medicare (2.9%)', fmt(medicareTax)],
+            ...(addMedicareTax>0?[['Additional Medicare (0.9%)', fmt(addMedicareTax)]]:[]),
+            ['Total SE Tax', fmt(totalSE)],
+            ['SE Tax Deduction (½ SE)', '-'+fmt(seDeduction)],
+            ['Federal Income Tax', fmt(incomeTax)],
+            ['Total Tax Burden', fmt(totalTax)],
+            ['Effective Rate', effectiveRate.toFixed(1)+'%'],
+            ['Quarterly Payment', fmt(quarterly)],
           ].map(([l,v])=>(
             <div key={l} style={{display:'flex',justifyContent:'space-between',padding:'9px 0',borderBottom:'1px solid #f0f0f0',fontSize:14}}>
-              <span style={{color:'#6b7280'}}>{l}</span>
-              <strong style={{color: l.includes('Loss')||l.includes('Fees')&&fee>0?'#dc2626':l.includes('ROI')||l.includes('Profit')||l.includes('CAGR')?positive?'#059669':'#dc2626':'#1a1a2e'}}>{v}</strong>
+              <span style={{color:'#6b7280'}}>{l}</span><strong>{v}</strong>
             </div>
           ))}
         </div>
-        <div style={{background:'#ecfeff',borderRadius:12,padding:16,marginTop:16,fontSize:13,color:'#0e7490',lineHeight:1.6}}>
-          <strong>CAGR</strong> (Compound Annual Growth Rate) is the annualised ROI — useful when comparing investments held for different time periods.
+        <div style={{background:'#fef3c7',borderRadius:12,padding:16,marginTop:16,fontSize:13,color:'#78350f',lineHeight:1.6}}>
+          <strong>2026:</strong> SE tax = 15.3% (SS 12.4% + Medicare 2.9%) on 92.35% of net profit. SS wage base $176,100. You can deduct half of SE tax from gross income. Quarterly payments due Jan 15, Apr 15, Jun 16, Sep 15.
         </div>
       </div>
     </div>
