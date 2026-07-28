@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://us-self-employment-tax.tabutility.com/sitemap.xml
