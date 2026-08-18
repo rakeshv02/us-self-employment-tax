@@ -330,6 +330,107 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 <div>Free, private, browser-based tools. No sign-up, no tracking.</div>
 <div style="margin-top:6px"><a href="https://tabutility.com" style="color:#818cf8;font-weight:600;text-decoration:none">All Tools</a> · <a href="https://tabutility.com/blog/" style="color:#94a3b8;text-decoration:none">Blog</a> · <a href="https://tabutility.com/about/" style="color:#94a3b8;text-decoration:none">About</a> · <a href="https://tabutility.com/privacy-policy/" style="color:#94a3b8;text-decoration:none">Privacy</a> · <a href="https://tabutility.com/contact/" style="color:#94a3b8;text-decoration:none">Contact</a></div>
 <div style="margin-top:6px;color:#64748b">© 2026 Tabutility</div>
-</footer>
+
+  <section id="seo-content" style="background:#1a1a2e;color:#e2e8f0;padding:60px 20px;margin-top:40px;border-top:1px solid #2d3748;">
+    <div style="max-width:860px;margin:0 auto;font-family:system-ui,-apple-system,sans-serif;line-height:1.7;">
+      <h2 style="font-size:2rem;font-weight:700;color:#f1f5f9;margin-bottom:24px;">How to Use the US Self-Employment Tax Calculator</h2>
+      <p style="margin-bottom:16px;color:#cbd5e1;">The US Self-Employment Tax Calculator computes SE tax (Social Security + Medicare on self-employment income), federal income tax, and estimated quarterly payment amounts for 2026. It handles the self-employment tax deduction and the qualified business income (QBI) deduction where applicable.</p>
+      <p style="margin-bottom:16px;color:#cbd5e1;">Enter your net self-employment income (revenue minus business expenses). The calculator computes SE tax at 15.3% on 92.35% of net income (the equivalent of both employee and employer FICA), deducts half the SE tax from gross income for the income tax calculation, and shows your total tax liability and quarterly estimated payment.</p>
+      <p style="margin-bottom:16px;color:#cbd5e1;">The key nuance: self-employed individuals pay both the employee (7.65%) and employer (7.65%) portions of FICA, totalling 15.3% on income up to $176,100 (2025 SS wage base) plus 2.9% Medicare on income above that. However, half the SE tax is deductible above the line, which partially offsets this burden.</p>
+
+      <div style="background:#0f172a;border:1px solid #334155;border-radius:12px;padding:28px;margin:32px 0;">
+        <h3 style="font-size:1.2rem;font-weight:600;color:#f1f5f9;margin-bottom:16px;">📊 Worked Example</h3>
+        <p style="color:#94a3b8;margin:0 0 12px;">Single freelancer, $80,000 net self-employment income, 2026:</p>
+        <ul style="list-style:none;padding:0;margin:0;color:#cbd5e1;">
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">SE tax (15.3% on 92.35%): <strong style="color:#f87171;">$11,304</strong></li>
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">Deductible SE tax: <strong style="color:#34d399;">−$5,652</strong></li>
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">Federal income tax (after standard deduction): <strong style="color:#f87171;">$9,543</strong></li>
+          <li style="padding:6px 0;border-bottom:1px solid #1e293b;">Total federal tax: <strong style="color:#f87171;">$20,847</strong></li>
+          <li style="padding:6px 0;">Quarterly estimated payment: <strong style="color:#34d399;">~$5,212</strong></li>
+        </ul>
+      </div>
+
+      <h3 style="font-size:1.4rem;font-weight:600;color:#f1f5f9;margin:32px 0 16px;">Common Use Cases</h3>
+      <ul style="list-style:none;padding:0;margin:0 0 32px;">
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Calculating self-employment tax on freelance or consulting income</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Finding out how much to save for quarterly estimated tax payments</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Understanding the total tax burden for self-employed individuals</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Calculating the SEP-IRA or Solo 401(k) contribution to reduce taxes</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Comparing self-employment vs S-corp taxation for higher earners</li>
+        <li style="padding:8px 0;border-bottom:1px solid #1e293b;color:#cbd5e1;">✅ Planning business structure based on SE tax savings</li>
+      </ul>
+
+      <h3 style="font-size:1.4rem;font-weight:600;color:#f1f5f9;margin:32px 0 24px;">Frequently Asked Questions</h3>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">What is self-employment tax?</h4>
+        <p style="color:#cbd5e1;margin:0;">SE tax covers Social Security (12.4%) and Medicare (2.9%) on net self-employment income — the combined employer and employee portions of FICA. Employed workers split this 50/50 with their employer. Self-employed individuals pay the full 15.3% themselves, though half is deductible.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">Who must pay self-employment tax?</h4>
+        <p style="color:#cbd5e1;margin:0;">Anyone with net self-employment income of $400 or more must pay SE tax. This includes freelancers, consultants, sole proprietors, and partners in a partnership. Members of LLCs taxed as partnerships typically owe SE tax on their distributive share of active income.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">What is the qualified business income (QBI) deduction?</h4>
+        <p style="color:#cbd5e1;margin:0;">The QBI deduction (Section 199A) allows eligible self-employed individuals and business owners to deduct up to 20% of qualified business income from their federal income tax. It doesn't reduce SE tax — only income tax. It phases out for high-income service businesses and has W-2 wage limitations.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">How do I pay estimated quarterly taxes?</h4>
+        <p style="color:#cbd5e1;margin:0;">Estimated tax is due quarterly: April 15, June 15, September 15, and January 15. Pay via IRS Direct Pay online, EFTPS, the IRS2Go app, or by mail with Form 1040-ES. Underpaying by more than $1,000 (or less than 90% of your tax liability) results in an underpayment penalty.</p>
+      </div>
+      <div style="margin-bottom:24px;">
+        <h4 style="font-size:1rem;font-weight:600;color:#f1f5f9;margin-bottom:8px;">Can I avoid SE tax by forming an S-Corp?</h4>
+        <p style="color:#cbd5e1;margin:0;">Partially. S-Corp owners pay SE tax only on their 'reasonable salary', not on pass-through distributions. For income above ~$50,000–60,000, the SE tax savings from paying a reasonable salary and taking the rest as distributions can exceed the administrative costs. Consult a CPA to model your specific situation.</p>
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is self-employment tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SE tax covers Social Security (12.4%) and Medicare (2.9%) on net self-employment income — the combined employer and employee portions of FICA. Employed workers split this 50/50 with their employer. Self-employed individuals pay the full 15.3% themselves, though half is deductible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Who must pay self-employment tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Anyone with net self-employment income of $400 or more must pay SE tax. This includes freelancers, consultants, sole proprietors, and partners in a partnership. Members of LLCs taxed as partnerships typically owe SE tax on their distributive share of active income."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the qualified business income (QBI) deduction?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The QBI deduction (Section 199A) allows eligible self-employed individuals and business owners to deduct up to 20% of qualified business income from their federal income tax. It doesn't reduce SE tax — only income tax. It phases out for high-income service businesses and has W-2 wage limitations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pay estimated quarterly taxes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Estimated tax is due quarterly: April 15, June 15, September 15, and January 15. Pay via IRS Direct Pay online, EFTPS, the IRS2Go app, or by mail with Form 1040-ES. Underpaying by more than $1,000 (or less than 90% of your tax liability) results in an underpayment penalty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I avoid SE tax by forming an S-Corp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Partially. S-Corp owners pay SE tax only on their 'reasonable salary', not on pass-through distributions. For income above ~$50,000–60,000, the SE tax savings from paying a reasonable salary and taking the rest as distributions can exceed the administrative costs. Consult a CPA to model your specific situation."
+      }
+    }
+  ]
+}
+  </script>
+  </footer>
 </body>
 </html>
